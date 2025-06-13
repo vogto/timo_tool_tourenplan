@@ -104,19 +104,20 @@ def aggregate_wochentage_and_insert():
     # Daten abfragen und transformieren
     query = """
         SELECT 
-          STANDORTID,
-          GROUP_CONCAT(
+        STANDORTID,
+        GROUP_CONCAT(
             CASE WOCHENTAG
-              WHEN 1 THEN 'Montag'
-              WHEN 2 THEN 'Dienstag'
-              WHEN 3 THEN 'Mittwoch'
-              WHEN 4 THEN 'Donnerstag'
-              WHEN 5 THEN 'Freitag'
-              WHEN 6 THEN 'Samstag'
-              WHEN 7 THEN 'Sonntag'
+            WHEN 1 THEN 'Montag'
+            WHEN 2 THEN 'Dienstag'
+            WHEN 3 THEN 'Mittwoch'
+            WHEN 4 THEN 'Donnerstag'
+            WHEN 5 THEN 'Freitag'
+            WHEN 6 THEN 'Samstag'
+            WHEN 7 THEN 'Sonntag'
             END
             ORDER BY WOCHENTAG SEPARATOR ','
-          ) AS WOCHENTAGE
+        ) AS WOCHENTAGE,
+        NOW() AS AKTUELLE_DATETIME
         FROM (
             SELECT STANDORTID, WOCHENTAG
             FROM lm_tourenplan
@@ -129,7 +130,7 @@ def aggregate_wochentage_and_insert():
     rows = cursor.fetchall()
 
     insert_sql = """
-        INSERT INTO lm_tourenplan_aggregiert (STANDORTID, WOCHENTAGE)
+        INSERT INTO lm_tourenplan_aggregiert (STANDORTID, WOCHENTAGE, DATUM_ERSTELLT)
         VALUES (%s, %s)
     """
 
