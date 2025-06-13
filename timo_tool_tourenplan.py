@@ -131,7 +131,7 @@ def aggregate_wochentage_and_insert():
 
     insert_sql = """
         INSERT INTO lm_tourenplan_aggregiert (STANDORTID, WOCHENTAGE, DATUM_ERSTELLT)
-        VALUES (%s, %s)
+        VALUES (%s, %s, %s)
     """
 
     for row in rows:
