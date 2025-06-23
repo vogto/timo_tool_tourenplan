@@ -170,15 +170,16 @@ sudo nano /etc/systemd/system/timo_tool_tourenplan.timer
 
 ```ini
 [Unit]
-Description=Timer für Tourenplan-Import um 7:00 Uhr täglich
+Description=Timer für Tourenplan-Import alle 2 Stunden
 
 [Timer]
-OnCalendar=*-*-* 07:00:00
+OnCalendar=0/2:00:00
 Persistent=true
 Unit=timo_tool_tourenplan.service
 
 [Install]
 WantedBy=timers.target
+
 ```
 
 ---
@@ -186,6 +187,7 @@ WantedBy=timers.target
 ### 2. Timer aktivieren und starten
 
 ```bash
+sudo systemctl daemon-reexec
 sudo systemctl daemon-reload
 sudo systemctl enable --now timo_tool_tourenplan.timer
 
