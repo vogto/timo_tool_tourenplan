@@ -121,6 +121,7 @@ def aggregate_wochentage_and_insert():
         FROM (
             SELECT STANDORTID, WOCHENTAG
             FROM lm_tourenplan
+            WHERE STANDORTID not in ('A999')
             GROUP BY STANDORTID, WOCHENTAG
         ) x
         GROUP BY STANDORTID
